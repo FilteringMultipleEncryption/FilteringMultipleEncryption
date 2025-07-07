@@ -1,17 +1,12 @@
 package hash;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-
 public class HashFunction {
-
-	private byte[] salt = null;
 	private int range = -1;
 	private int p;
 	private int u;
 	private int v;
 
-	public HashFunction(int d, int range) throws NoSuchAlgorithmException {
+	public HashFunction(int d, int range) {
 		this.p = findPrimeInRange(d);
 		this.range = range;
 		u = (int) (Math.random() * (p - 1)) + 1;
@@ -48,13 +43,6 @@ public class HashFunction {
 	public int calculateHash(int input) {
 		long h = ((long) u * input + v) % p;
 		return (int) (h % range);
-	}
-
-	private byte[] generateSalt() throws NoSuchAlgorithmException {
-		SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
-		byte[] salt = new byte[16];
-		sr.nextBytes(salt);
-		return salt;
 	}
 
 	public int getRange() {

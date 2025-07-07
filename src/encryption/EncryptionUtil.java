@@ -27,21 +27,6 @@ import hash.KeyIdAndHashedValue;
 
 public class EncryptionUtil {
 
-	public static void main(String args[])
-			throws NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException,
-			InvalidKeyException, IllegalBlockSizeException, BadPaddingException, NoSuchPaddingException {
-		KeyPair keyPair = getKeyPair(ENCRYPTION_MODE.ECIES);
-		PublicKey publicKey = keyPair.getPublic();
-		PrivateKey privateKey = keyPair.getPrivate();
-		byte bs[] = encrypt(publicKey, 1000000000);
-		byte bs2[] = encrypt(publicKey, bs);
-
-		byte ts2[] = decrypt_byte(privateKey, bs2);
-		int ts = decrypt(privateKey, ts2);
-		System.out.println(ts);
-
-	}
-
 	public static int getSize(ENCRYPTION_MODE mode, int turn) {
 		if (mode == ENCRYPTION_MODE.ECIES) {
 			if (turn == 1) {
@@ -306,8 +291,7 @@ public class EncryptionUtil {
 		int keySizeBytes = ((RSAPrivateKey) privateKey).getModulus().bitLength() / 8;
 
 		if (encrypted.length != keySizeBytes * numChunks) {
-			throw new IllegalArgumentException(
-					"Encrypted data length does not match key size ﾃ� numChunks. Possibly incorrect chunk count or corrupted data.");
+			throw new IllegalArgumentException();
 		}
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

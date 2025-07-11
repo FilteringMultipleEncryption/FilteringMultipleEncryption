@@ -33,11 +33,13 @@ README.md   ── This file
    Place the following libraries in the `lib/` directory:
 
    - [Apache Commons Math 3.6.1](https://archive.apache.org/dist/commons/math/binaries/)  
-     Please download and use version **3.6.1** from the Apache archive.  
-     (Note: Commons Math 4.x uses a different package structure and is incompatible.)
+     Please download **`commons-math3-3.6.1-bin.zip`** or **`.tar.gz`** from the Apache archive.  
+     The archive contains the file `commons-math3-3.6.1.jar`, which you should place into the `lib/` directory.  
+     *(Note: Commons Math 4.x uses a different package structure and is incompatible.)*
      
-   - [Bouncy Castle](https://www.bouncycastle.org/)
-     The protocol is confirmed to work with **bcprov-jdk18on-1.81.jar**.
+   - [Bouncy Castle](https://www.bouncycastle.org/)  
+     The protocol is confirmed to work with **`bcprov-jdk18on-1.81.jar`**.  
+     Please place the JAR file into the `lib/` directory.
 
 ---
 

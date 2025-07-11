@@ -32,8 +32,12 @@ README.md   ── This file
 
    Place the following libraries in the `lib/` directory:
 
-   - [Apache Commons Math](https://commons.apache.org/proper/commons-math/) — Apache License 2.0
-   - [Bouncy Castle](https://www.bouncycastle.org/) — MIT License
+   - [Apache Commons Math 3.6.1](https://archive.apache.org/dist/commons/math/binaries/)  
+     Please download and use version **3.6.1** from the Apache archive.  
+     (Note: Commons Math 4.x uses a different package structure and is incompatible.)
+     
+   - [Bouncy Castle](https://www.bouncycastle.org/)
+     The protocol is confirmed to work with **bcprov-jdk18on-1.81.jar**.
 
 ---
 
@@ -76,7 +80,7 @@ The following examples reproduce the settings of **Figure 6** in the paper. The
 
 #### 1  Download & Pre‑process Data
 
-1. Download the following datasets into `data/`:
+1. Create a `data/` directory (if it does not exist) and download into `data/`:
    - **TIST2015** — [`dataset_TIST2015.zip`](https://sites.google.com/site/yangdingqi/home/foursquare-dataset#h.p_ID_56)
    - **UbiComp2016** — [`dataset_UbiComp2016.zip`](https://sites.google.com/site/yangdingqi/home/foursquare-dataset#h.p_ID_68)
 2. Run preprocessing:

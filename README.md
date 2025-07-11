@@ -76,7 +76,7 @@ The following examples reproduce the settings of **Figure 6** in the paper. The
 
 #### 1  Download & Pre‑process Data
 
-1. Create a `data/` directory (if it does not exist) and download into `data/`:
+1. Download the following datasets into `data/`:
    - **TIST2015** — [`dataset_TIST2015.zip`](https://sites.google.com/site/yangdingqi/home/foursquare-dataset#h.p_ID_56)
    - **UbiComp2016** — [`dataset_UbiComp2016.zip`](https://sites.google.com/site/yangdingqi/home/foursquare-dataset#h.p_ID_68)
 2. Run preprocessing:

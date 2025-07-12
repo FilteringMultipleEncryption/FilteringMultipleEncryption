@@ -115,8 +115,8 @@ On **Linux/MacOS**:
 java -cp "lib/*:bin" fme.CategoricalFME foursquare 1.0 1E-12 0.05 1.0 50 RSA true
 ```
 
-Then, the MSE of "Proposal (Large ℓ)" with epsilon=1.0 will be output to the console. 
-To change epsilon, change the 2nd argument (from `1.0` to the desired value). 
+Then, the MSE of "Proposal (Large ℓ)" with ε=1.0 will be output to the console. 
+To change the value of ε, change the 2nd argument (from `1.0` to the desired value). 
 To evaluate "Proposal (Small ℓ)", change the 8th argument from `true` to `false`.
 
 ---
@@ -151,8 +151,8 @@ On **Linux/MacOS**:
 java -cp "lib/*:bin" fme.KeyValueFME amazon 1.0 1E-12 0.05 1.0 50 RSA true
 ```
 
-Then, the MSE (frequency) and the MSE (mean) of "Proposal (Large ℓ)" with epsilon=1.0 will be output to the console. 
-To change epsilon, change the 2nd argument (from `1.0` to the desired value). 
+Then, the MSE (frequency) and the MSE (mean) of "Proposal (Large ℓ)" with ε=1.0 will be output to the console. 
+To change the value of ε, change the 2nd argument (from `1.0` to the desired value). 
 To evaluate "Proposal (Small ℓ)", change the 8th argument from `true` to `false`.
 
 ---

@@ -41,7 +41,7 @@ README.md   ── This file.
    - [Apache Commons Math 3.6.1](https://archive.apache.org/dist/commons/math/binaries/)  
      Download **`commons-math3-3.6.1-bin.zip`** or **`.tar.gz`** from the Apache archive and decompress it.  
      The archive contains the file `commons-math3-3.6.1.jar`. Place it into the `lib/` directory.  
-     *(NOTE: Commons Math 4.x uses a different package structure and is incompatible with our code.)*
+     (NOTE: Commons Math 4.x uses a different package structure and is incompatible with our code.)
      
    - [Bouncy Castle](https://www.bouncycastle.org/)  
      Our code works with **`bcprov-jdk18on-1.81.jar`**.  
@@ -126,7 +126,7 @@ To evaluate "Proposal (Small ℓ)", change the 8th argument from `true` to `fals
 #### 1  Download & Pre‑process Data
 
 1. Place `ratings_Beauty.csv` (unzipped file) from the [Kaggle Amazon Ratings](https://www.kaggle.com/datasets/skillsmuggler/amazon-ratings) dataset into `data/`. 
-   *(NOTE: you need to log in to the Kaggle to download the dataset.)
+   (NOTE: you need to log in to the Kaggle to download the dataset.)
 2. Run preprocessing as follows:
 
 On **Windows**:

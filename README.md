@@ -82,7 +82,8 @@ Both classes expose an `execute` method with the following arguments:
 
 ## Sample Execution
 
-The following examples reproduce **Figure 6 "Proposal (Large ℓ)" and "Proposal (Small ℓ)"** in our paper. The evaluation results will be printed directly to the console (standard output).
+The following examples reproduce **Figure 6 "Proposal (Large ℓ)" and "Proposal (Small ℓ)"** in our paper. \
+The evaluation results will be printed directly to the console (standard output).
 
 ### Foursquare Dataset
 
@@ -115,8 +116,8 @@ On **Linux/MacOS**:
 java -cp "lib/*:bin" fme.CategoricalFME foursquare 1.0 1E-12 0.05 1.0 50 RSA true
 ```
 
-Then, the MSE of "Proposal (Large ℓ)" with ε=1.0 will be output to the console. 
-To change the value of ε, change the 2nd argument (from `1.0` to the desired value). 
+Then, the MSE of "Proposal (Large ℓ)" with ε=1.0 will be output to the console. \
+To change the value of ε, change the 2nd argument (from `1.0` to the desired value). \
 To evaluate "Proposal (Small ℓ)", change the 8th argument from `true` to `false`.
 
 ---
@@ -125,8 +126,8 @@ To evaluate "Proposal (Small ℓ)", change the 8th argument from `true` to `fals
 
 #### 1  Download & Pre‑process Data
 
-1. Place `ratings_Beauty.csv` (unzipped file) from the [Kaggle Amazon Ratings](https://www.kaggle.com/datasets/skillsmuggler/amazon-ratings) dataset into `data/`. 
-   (NOTE: you need to log in to the Kaggle to download the dataset.)
+1. Place `ratings_Beauty.csv` (unzipped file) from the [Kaggle Amazon Ratings](https://www.kaggle.com/datasets/skillsmuggler/amazon-ratings) dataset into `data/`. \
+   (NOTE: You need to log in to the Kaggle to download the dataset.)
 2. Run preprocessing as follows:
 
 On **Windows**:
@@ -151,13 +152,18 @@ On **Linux/MacOS**:
 java -cp "lib/*:bin" fme.KeyValueFME amazon 1.0 1E-12 0.05 1.0 50 RSA true
 ```
 
-Then, the MSE (frequency) and the MSE (mean) of "Proposal (Large ℓ)" with ε=1.0 will be output to the console. 
-To change the value of ε, change the 2nd argument (from `1.0` to the desired value). 
+Then, the MSE (frequency) and the MSE (mean) of "Proposal (Large ℓ)" with ε=1.0 will be output to the console. \
+To change the value of ε, change the 2nd argument (from `1.0` to the desired value). \
 To evaluate "Proposal (Small ℓ)", change the 8th argument from `true` to `false`.
+
+---
+
+## Execution Environment
+
+We have verified the processing of our source code explained above using Windows 11 Pro and OpenJDK JDK 24.0.1.
 
 ---
 
 ## License
 
 This repository is released under the MIT License. See `LICENSE` for details.
-

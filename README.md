@@ -54,7 +54,7 @@ README.md   ── This file.
 
 The following table shows an entry point for each data type: 
 
-| Data Type       | Entry point          | Description              |
+| Data Type       | Entry Point          | Description              |
 | --------------- | -------------------- | ------------------------ |
 | **Categorical** | `fme.CategoricalFME` | Evaluate the FME protocol for categorical data |
 | **Key–Value**   | `fme.KeyValueFME`    | Evaluate the FME protocol for key–value data   |

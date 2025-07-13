@@ -1,16 +1,19 @@
 package hash;
 
+import java.util.Random;
+
 public class HashFunction {
 	private int range = -1;
 	private int p;
 	private int u;
 	private int v;
 
-	public HashFunction(int d, int range) {
+	public HashFunction(int d, int range, Random rand) {
+
 		this.p = findPrimeInRange(d);
 		this.range = range;
-		u = (int) (Math.random() * (p - 1)) + 1;
-		v = (int) (Math.random() * p);
+		u = (int) (rand.nextDouble() * (p - 1)) + 1;
+		v = (int) (rand.nextDouble() * p);
 	}
 
 	public static int findPrimeInRange(int B) {

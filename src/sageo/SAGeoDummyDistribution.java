@@ -8,12 +8,12 @@ public class SAGeoDummyDistribution extends LNFAbstractDummyDistribution {
 
 	// The original domain of the PMF is [0, infinity), but it corresponds up to the
 	// point where the CDF exceeds the targetCumulativeValue.
-	private static double targetCumulativeValue = 0.9999999;
+	private static double targetCumulativeValue = 0.999999999;
 	private Random random;
 	private double[] cumulativeProbabilities;
 
-	public SAGeoDummyDistribution(int nu, double kappa, double ql, double qr) {
-		this.random = new Random();
+	public SAGeoDummyDistribution(int nu, double kappa, double ql, double qr, Random rand) {
+		this.random = rand;
 		int size = getSize(nu, ql, qr);
 		cumulativeProbabilities = new double[size];
 		double cumulativeProbability = 0.0;

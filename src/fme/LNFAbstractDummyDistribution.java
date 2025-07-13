@@ -4,7 +4,8 @@ public abstract class LNFAbstractDummyDistribution {
 
 	protected double mu;
 	protected double sigma2;
-
+	protected int seed;
+	
 	protected abstract int sample();
 
 	protected abstract int getZth(double alpha);

@@ -8,6 +8,7 @@ import java.security.NoSuchProviderException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -33,35 +34,45 @@ public class KeyValueFME {
 		int topK = 50;
 		ENCRYPTION_MODE encryption = ENCRYPTION_MODE.RSA;
 		boolean isLargeL = true;
+		Integer seed = null;
 
 		try {
 			targetDataName = args[0];
-			epsilon = Util.getDoubleArg(args, 1, 1.0);
-			delta = Util.getDoubleArg(args, 2, 1E-12);
-			alpha = Util.getDoubleArg(args, 3, 0.05);
-			beta = Util.getDoubleArg(args, 4, 1.0);
-			topK = Util.getIntArg(args, 5, 50);
-			encryption = args.length > 6 ? ENCRYPTION_MODE.valueOf(args[6].toUpperCase()) : ENCRYPTION_MODE.RSA;
-			isLargeL = Util.getBooleanArg(args, 7, true);
+			epsilon = Util.getDoubleArg(args, 1, epsilon);
+			delta = Util.getDoubleArg(args, 2, delta);
+			alpha = Util.getDoubleArg(args, 3, alpha);
+			beta = Util.getDoubleArg(args, 4, beta);
+			topK = Util.getIntArg(args, 5, topK);
+			encryption = args.length > 6 ? ENCRYPTION_MODE.valueOf(args[6].toUpperCase()) : encryption;
+			isLargeL = Util.getBooleanArg(args, 7, isLargeL);
+			seed = Util.getIntArg(args, 8, seed);
 		} catch (Exception e) {
 			String osName = System.getProperty("os.name").toLowerCase();
 			String cpSeparator = osName.contains("win") ? ";" : ":";
 
 			System.err.println("Usage: java -cp \"lib/*" + cpSeparator
-					+ "bin\" fme.KeyValueFME <targetDataName> <epsilon> <delta> <alpha> <beta> <topK> <encryption_mode> <isLargeL>");
+					+ "bin\" fme.KeyValueFME <targetDataName> <epsilon> <delta> <alpha> <beta> <topK> <encryption_mode> <isLargeL> <seed>");
 			System.err.println("Example: java -cp \"lib/*" + cpSeparator
-					+ "bin\" fme.KeyValueFME amazon 1.0 1E-12 0.05 1.0 50 RSA true");
+					+ "bin\" fme.KeyValueFME amazon 1.0 1E-12 0.05 1.0 50 RSA true 12345");
 			return;
 		}
 
-		execute(KeyValueDataConfig.valueOf(targetDataName), epsilon, delta, alpha, beta, topK, encryption, isLargeL);
+		execute(KeyValueDataConfig.valueOf(targetDataName), epsilon, delta, alpha, beta, topK, encryption, isLargeL,
+				seed);
 
 	}
 
-	public static void execute(KeyValueDataConfig data, double epsilon, double delta, double alpha, double beta, int topK,
-			ENCRYPTION_MODE encryption, boolean isLargeL)
+	public static void execute(KeyValueDataConfig data, double epsilon, double delta, double alpha, double beta,
+			int topK, ENCRYPTION_MODE encryption, boolean isLargeL, Integer seed)
 			throws NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException, IOException,
 			InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+
+		Random rand = null;
+		if (seed == null) {
+			rand = new Random();
+		} else {
+			rand = new Random(seed);
+		}
 
 		KeyVals keyValsClass = Util.getOrgKeyVals(data);
 		List<HashMap<Integer, Double>> keyVals_temp = keyValsClass.getKeyVals();
@@ -71,10 +82,10 @@ public class KeyValueFME {
 		int kappa = (int) Math.ceil(Util.getL(keyVals_temp, 90));
 		int dDash = 2 * (d + kappa);
 
-		List<HashMap<Integer, Double>> keyVals = Util.sampling(keyVals_temp, 0.05);
+		List<HashMap<Integer, Double>> keyVals = Util.sampling(keyVals_temp, 0.05, rand);
 		int n = keyVals.size();
 
-		SAGeoDataCollector dataCollector = new SAGeoDataCollector(epsilon / 2, delta / 2, d, n, alpha);
+		SAGeoDataCollector dataCollector = new SAGeoDataCollector(epsilon / 2, delta / 2, d, n, alpha, rand);
 
 		int b = -1;
 		int l = -1;
@@ -86,7 +97,7 @@ public class KeyValueFME {
 			b = Util.getB(false, n, dDash, dataCollector.getDistribution().getMu(), alpha, beta, encryption);
 		}
 
-		HashFunction hashFunction = new HashFunction(d, b);
+		HashFunction hashFunction = new HashFunction(d, b, rand);
 
 		LNFUser users[] = new LNFUser[n];
 
@@ -94,7 +105,7 @@ public class KeyValueFME {
 			HashMap<Integer, Double> keyVal = keyVals.get(i);
 			LNFUser user = new LNFUser(keyVal, hashFunction, kappa);
 			users[i] = user;
-			user.keyValuePerturbation(d);
+			user.keyValuePerturbation(d, rand);
 		}
 		dataCollector.setParameters(b, l, hashFunction);
 
@@ -104,7 +115,7 @@ public class KeyValueFME {
 		for (int i = 0; i < n; i++) {
 			shuffler.receiveValue(users[i].getHashValue(), users[i].getOriginalValue());
 		}
-		shuffler.sampleAndAddFakeValues();
+		shuffler.sampleAndAddFakeValues(rand);
 
 		dataCollector.receives1keyValue(shuffler.getSampledHashValues(), shuffler.getSampledOrgValues(), kappa);
 		HashSet<Integer> filteringInfo = dataCollector.getFilteringInfo();
@@ -124,7 +135,8 @@ public class KeyValueFME {
 		double mseFrequency = Util.getMse(orgFrequency, frequency, orgFrequency, topK) / topK;
 		double mseMean = Util.getMse(orgMean, mean, orgFrequency, topK) / topK;
 
-		System.out.println(mseFrequency + ", " + mseMean);
+		System.out.println("Frequency MSE: " + mseFrequency);
+		System.out.println("Mean MSE: " + mseMean);
 	}
 
 }

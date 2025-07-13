@@ -4,6 +4,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 
 import hash.HashFunction;
 
@@ -33,10 +34,10 @@ public class LNFShuffler {
 		sampledOrgValues = new ArrayList<Integer>();
 	}
 
-	private boolean[] getSampleBools(int n) {
+	private boolean[] getSampleBools(int n, Random rand) {
 		boolean bs[] = new boolean[n];
 		for (int i = 0; i < n; i++) {
-			if (Math.random() < beta) {
+			if (rand.nextDouble() < beta) {
 				bs[i] = true;
 			} else {
 				bs[i] = false;
@@ -56,9 +57,9 @@ public class LNFShuffler {
 	/**
 	 * Round1
 	 */
-	public void sampleAndAddFakeValues() {
+	public void sampleAndAddFakeValues(Random rand) {
 
-		boolean bs[] = getSampleBools(allHashValues.size());
+		boolean bs[] = getSampleBools(allHashValues.size(), rand);
 
 		for (int i = 0; i < bs.length; i++) {
 			if (bs[i]) {

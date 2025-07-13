@@ -1,12 +1,13 @@
 package sageo;
 
 import java.util.List;
+import java.util.Random;
 
 import fme.LNFAbstractDataCollector;
 
 public class SAGeoDataCollector extends LNFAbstractDataCollector {
 
-	public SAGeoDataCollector(double epsilon, double delta, int d, int n, double alpha) {
+	public SAGeoDataCollector(double epsilon, double delta, int d, int n, double alpha, Random rand) {
 		super(epsilon, delta, d, n, alpha);
 
 		double ql = -1;
@@ -40,7 +41,7 @@ public class SAGeoDataCollector extends LNFAbstractDataCollector {
 		expectedError = bestLoss;
 		expectedApproximatedError = SageoUtil.getApproximatedExpectedError(epsilon, n, d, beta);
 		mu = SageoUtil.getMu(nu, ql, qr, kappa);
-		distribution = new SAGeoDummyDistribution(nu, kappa, ql, qr);
+		distribution = new SAGeoDummyDistribution(nu, kappa, ql, qr, rand);
 
 	}
 

@@ -276,14 +276,13 @@ public class Util {
 		return vals;
 	}
 
-	public static List<Integer> getRandomElements(int size, int targetNum, long seed) {
+	public static List<Integer> getRandomElements(int size, int targetNum, Random rand) {
 		List<Integer> numbers = new ArrayList<>();
 		for (int i = 0; i < size; i++) {
 			numbers.add(i);
 		}
 
-		Random random = new Random(seed);
-		Collections.shuffle(numbers, random);
+		Collections.shuffle(numbers, rand);
 
 		return new ArrayList<>(numbers.subList(0, targetNum));
 	}
@@ -589,9 +588,9 @@ public class Util {
 		return (int) temp;
 	}
 
-	public static List<HashMap<Integer, Double>> sampling(List<HashMap<Integer, Double>> keyVals, double sampling) {
+	public static List<HashMap<Integer, Double>> sampling(List<HashMap<Integer, Double>> keyVals, double sampling,
+			Random rand) {
 		List<HashMap<Integer, Double>> result = new ArrayList<>();
-		Random rand = new Random();
 
 		for (HashMap<Integer, Double> map : keyVals) {
 			if (rand.nextDouble() < sampling) {
@@ -609,7 +608,7 @@ public class Util {
 		return defaultValue;
 	}
 
-	public static int getIntArg(String[] args, int index, int defaultValue) {
+	public static Integer getIntArg(String[] args, int index, Integer defaultValue) {
 		if (args.length > index) {
 			return Integer.parseInt(args[index]);
 		}

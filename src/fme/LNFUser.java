@@ -57,14 +57,14 @@ public class LNFUser {
 		return this.isRemaining;
 	}
 
-	public void setPoisonedValue(Set<Integer> targets) {
+	public void setPoisonedValue(Set<Integer> targets, Random random) {
 		List<Integer> list = new ArrayList<Integer>();
 		list.addAll(targets);
-		int rand = (int) (Math.random() * targets.size());
+		int rand = (int) (random.nextDouble() * targets.size());
 		value = list.get(rand);
 	}
 
-	public void keyValuePerturbation(int d) throws NoSuchAlgorithmException {
+	public void keyValuePerturbation(int d, Random rand) throws NoSuchAlgorithmException {
 		int keyValSize = keyValue.size();
 		int addNum = Math.max(kappa - keyValSize, 0);
 		int dDash = d + kappa;
@@ -75,12 +75,11 @@ public class LNFUser {
 		for (int j = 0; j < addNum; j++) {
 			keySet.add(d + 1 + j);
 		}
-		int key = keySet.stream().skip(new Random().nextInt(keySet.size())).findFirst().get();
+		int key = keySet.stream().skip(rand.nextInt(keySet.size())).findFirst().get();
 		double value = keyValue.getOrDefault(key, 0.0);
 
-		double rand = Math.random();
 		int vStar = Integer.MAX_VALUE;
-		if (rand < (1 + value) / 2.0) {
+		if (rand.nextDouble() < (1 + value) / 2.0) {
 			vStar = 1;
 		} else {
 			vStar = -1;

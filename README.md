@@ -1,12 +1,12 @@
 # FME (Filtering‑with‑Multiple‑Encryption) Protocol
 
-This source code is a Java implementation of the FME (Filtering‑with‑Multiple‑Encryption) protocol. Our code does not require GPUs or a lot of cores/RAM and can be easily run on a laptop.
+This source code is a Java implementation of the FME (Filtering‑with‑Multiple‑Encryption) protocol. 
 
 ---
 
 ## Purpose
 
-The purpose of this source code is to reproduce our experimental results, in particular, **Fig. 6 "Proposal (Large ℓ)" and "Proposal (Small ℓ)"**. In this document, we explain how to reproduce them using the Foursquare and Amazon datasets.
+The purpose of this source code is to reproduce our experimental results, in particular, **Fig. 6 "Proposal (Large ℓ)" and "Proposal (Small ℓ)"**. In this document, we explain how to reproduce them using the Foursquare and Amazon datasets. Our code does not require GPUs or a lot of cores/RAM and can be easily run on a laptop.
 
 ---
 

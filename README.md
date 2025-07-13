@@ -67,7 +67,7 @@ Each entry point has the following arguments:
 | `epsilon`               | ε in differential privacy                     |
 | `delta`                 | δ in differential privacy                     |
 | `alpha`                 | Significance level                            |
-| `beta`                  | Sampling ratio                                |
+| `beta`                  | Sampling probability                          |
 | `topK`                  | Evaluate the MSE of the top-K frequent items. |
 | `encryption`            | Encryption mode (`RSA` or `ECIES`)            |
 | `isLargeL`              | Use Proposal (Large ℓ) if `true`              |

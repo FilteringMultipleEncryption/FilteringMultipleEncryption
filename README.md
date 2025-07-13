@@ -50,8 +50,6 @@ README.md   ── This file.
    javac -cp "lib/*" -d bin src/data/*.java src/encryption/*.java src/fme/*.java src/hash/*.java src/sageo/*.java src/util/*.java
    ```
 
----
-
 ### (2) Execution
 
 The following table shows an entry point for each data type: 
@@ -75,9 +73,7 @@ Each entry point has the following arguments:
 | `isLargeL`              | Use Proposal (Large ℓ) if `true`              |
 | `seed`                  | Random seed (optional)                        |
 
-Based on them, we explain how to reproduce Fig. 6 "Proposal (Large ℓ)" and "Proposal (Small ℓ)."
-
----
+Based on them, we explain how to reproduce Fig. 6 "Proposal (Large ℓ)" and "Proposal (Small ℓ)":
 
 ### Foursquare Dataset
 
@@ -113,11 +109,7 @@ Based on them, we explain how to reproduce Fig. 6 "Proposal (Large ℓ)" and "Pr
    ```bash
    Frequency MSE: 7.89673284955141E-8
    ```
-   This is the MSE of "Proposal (Large ℓ)" with ε=1.0. \
-   To change the value of ε, change the 2nd argument (from `1.0` to the desired value). \
-   To evaluate "Proposal (Small ℓ)", change the 8th argument from `true` to `false`.
-
----
+   This is the MSE of "Proposal (Large ℓ)" with ε=1.0.
 
 ### Amazon Dataset
 
@@ -153,9 +145,12 @@ Based on them, we explain how to reproduce Fig. 6 "Proposal (Large ℓ)" and "Pr
    Frequency MSE: 3.338134642028916E-7
    Mean MSE: 0.1642468655220782
    ```
-   They are the MSE (frequency) and the MSE (mean) of "Proposal (Large ℓ)" with ε=1.0. \
-   To change the value of ε, change the 2nd argument (from `1.0` to the desired value). \
-   To evaluate "Proposal (Small ℓ)", change the 8th argument from `true` to `false`.
+   They are the MSE (frequency) and the MSE (mean) of "Proposal (Large ℓ)" with ε=1.0.
+
+For each data type, we can change the value of ε by changing the 2nd argument (from `1.0` to the desired value). \
+We can evaluate "Proposal (Small ℓ)" by changing the 8th argument from `true` to `false`. \
+The 9th argument (`100` in the above examples) is optional and can be omitted. \
+We plotted Fig. 6 "Proposal (Large ℓ)" and "Proposal (Small ℓ)" in the Foursquare and Amazon datasets by changing ε from `0.1` to `5.0` and averaging the MSE over 10 runs.
 
 ---
 

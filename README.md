@@ -28,11 +28,14 @@ README.md   ── This file.
 ### (1) Installation and Compilation
 
 1. Clone the repository:
+
    ```bash
    git clone <repo‑url>
    cd FilteringMultipleEncryption
    ```
+
 2. Place the following libraries in the `lib/` directory:
+
    - [Apache Commons Math 3.6.1](https://archive.apache.org/dist/commons/math/binaries/)  
      Download **`commons-math3-3.6.1-bin.zip`** or **`.tar.gz`** from the Apache archive and decompress it.  
      The archive contains the file `commons-math3-3.6.1.jar`. Place it into the `lib/` directory.  
@@ -40,7 +43,9 @@ README.md   ── This file.
    - [Bouncy Castle](https://www.bouncycastle.org/)  
      Our code works with **`bcprov-jdk18on-1.81.jar`**.  
      Place it into the `lib/` directory.
+
 3. Compile our code:
+
    ```bash
    javac -cp "lib/*" -d bin src/data/*.java src/encryption/*.java src/fme/*.java src/hash/*.java src/sageo/*.java src/util/*.java
    ```
@@ -68,6 +73,7 @@ Each entry point has the following arguments:
 | `topK`                  | Evaluate the MSE of the top-K frequent items. |
 | `encryption`            | Encryption mode (`RSA` or `ECIES`)            |
 | `isLargeL`              | Use Proposal (Large ℓ) if `true`              |
+| `seed`                  | Random seed (optional)                        |
 
 Based on them, we explain how to reproduce Fig. 6 "Proposal (Large ℓ)" and "Proposal (Small ℓ)."
 
@@ -79,6 +85,7 @@ Based on them, we explain how to reproduce Fig. 6 "Proposal (Large ℓ)" and "Pr
    - **[Global-scale Check-in Dataset](https://sites.google.com/site/yangdingqi/home/foursquare-dataset#h.p_ID_56)** — `dataset_TIST2015.zip`
    - **[User Profile Dataset](https://sites.google.com/site/yangdingqi/home/foursquare-dataset#h.p_ID_68)** — `dataset_UbiComp2016.zip`
 2. Run the preprocessing code as follows:
+
    On **Windows**:
       ```bash
       java -cp "lib/*;bin" util.DataPreprocessing foursquare
@@ -88,17 +95,25 @@ Based on them, we explain how to reproduce Fig. 6 "Proposal (Large ℓ)" and "Pr
       ```bash
       java -cp "lib/*:bin" util.DataPreprocessing foursquare
       ```
+
 3. Run the evaluation code as follows:
+
    On **Windows**:
    ```bash
-   java -cp "lib/*;bin" fme.CategoricalFME foursquare 1.0 1E-12 0.05 1.0 50 RSA true
+   java -cp "lib/*;bin" fme.CategoricalFME foursquare 1.0 1E-12 0.05 1.0 50 RSA true 100
    ```
    
    On **Linux/MacOS**:
    ```bash
-   java -cp "lib/*:bin" fme.CategoricalFME foursquare 1.0 1E-12 0.05 1.0 50 RSA true
+   java -cp "lib/*:bin" fme.CategoricalFME foursquare 1.0 1E-12 0.05 1.0 50 RSA true 100
    ```
-   Then, the MSE of "Proposal (Large ℓ)" with ε=1.0 will be output to the console. \
+
+**Results**: After running the code in step 3, the following results will be output to the console:
+
+   ```bash
+   Frequency MSE: 7.89673284955141E-8
+   ```
+   This is the MSE of "Proposal (Large ℓ)" with ε=1.0. \
    To change the value of ε, change the 2nd argument (from `1.0` to the desired value). \
    To evaluate "Proposal (Small ℓ)", change the 8th argument from `true` to `false`.
 
@@ -109,6 +124,7 @@ Based on them, we explain how to reproduce Fig. 6 "Proposal (Large ℓ)" and "Pr
 1. Place `ratings_Beauty.csv` (unzipped file) from the [Kaggle Amazon Ratings (Beauty Products)](https://www.kaggle.com/datasets/skillsmuggler/amazon-ratings) dataset into `data/`. \
    (NOTE: You need to log in to the Kaggle to download the dataset.)
 2. Run preprocessing as follows:
+
    On **Windows**:
       ```bash
       java -cp "lib/*;bin" util.DataPreprocessing amazon
@@ -118,17 +134,26 @@ Based on them, we explain how to reproduce Fig. 6 "Proposal (Large ℓ)" and "Pr
       ```bash
       java -cp "lib/*:bin" util.DataPreprocessing amazon
       ```
+
 3. Run the evaluation code as follows:
+
    On **Windows**:
    ```bash
-   java -cp "lib/*;bin" fme.KeyValueFME amazon 1.0 1E-12 0.05 1.0 50 RSA true
+   java -cp "lib/*;bin" fme.KeyValueFME amazon 1.0 1E-12 0.05 1.0 50 RSA true 100
    ```
    
    On **Linux/MacOS**:
    ```bash
-   java -cp "lib/*:bin" fme.KeyValueFME amazon 1.0 1E-12 0.05 1.0 50 RSA true
+   java -cp "lib/*:bin" fme.KeyValueFME amazon 1.0 1E-12 0.05 1.0 50 RSA true 100
    ```
-   Then, the MSE (frequency) and the MSE (mean) of "Proposal (Large ℓ)" with ε=1.0 will be output to the console. \
+
+**Results**: After running the code in step 3, the following results will be output to the console:
+
+   ```bash
+   Frequency MSE: 3.338134642028916E-7
+   Mean MSE: 0.1642468655220782
+   ```
+   They are the MSE (frequency) and the MSE (mean) of "Proposal (Large ℓ)" with ε=1.0. \
    To change the value of ε, change the 2nd argument (from `1.0` to the desired value). \
    To evaluate "Proposal (Small ℓ)", change the 8th argument from `true` to `false`.
 

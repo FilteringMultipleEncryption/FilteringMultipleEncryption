@@ -87,6 +87,8 @@ Based on them, we explain how to reproduce Fig. 6 "Proposal (Large ℓ)" and "Pr
 1. Download the following datasets into `data/`:
    - **[Global-scale Check-in Dataset](https://sites.google.com/site/yangdingqi/home/foursquare-dataset#h.p_ID_56)** — `dataset_TIST2015.zip`
    - **[User Profile Dataset](https://sites.google.com/site/yangdingqi/home/foursquare-dataset#h.p_ID_68)** — `dataset_UbiComp2016.zip`
+   
+   You may also place all the extracted `.txt` files from these ZIP archives directly into the `data/` directory instead of using the ZIP files. The program will work the same way in this case.
 2. Run the preprocessing code as follows:
 
    On **Windows**:

@@ -44,6 +44,13 @@ README.md   ── This file.
      Our code works with **`bcprov-jdk18on-1.81.jar`**.  
      Place it into the `lib/` directory.
 
+    *As of August 3, 2025, the following direct download links are available:*  
+     - **Apache Commons Math 3.6.1**:  
+       [commons-math3-3.6.1-bin.zip](https://archive.apache.org/dist/commons/math/binaries/commons-math3-3.6.1-bin.zip)  
+       [commons-math3-3.6.1-bin.tar.gz](https://archive.apache.org/dist/commons/math/binaries/commons-math3-3.6.1-bin.tar.gz)  
+     - **Bouncy Castle (bcprov-jdk18on-1.81.jar)**:  
+       [bcprov-jdk18on-1.81.jar](https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk18on/1.81/bcprov-jdk18on-1.81.jar)
+     
 3. Compile our code:
 
    ```bash

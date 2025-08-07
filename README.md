@@ -23,7 +23,47 @@ README.md   ── This file.
 
 ---
 
+## Functionality
+
+The following table shows an entry point for each data type: 
+
+| Data Type       | Entry Point          | Description              |
+| --------------- | -------------------- | ------------------------ |
+| **Categorical** | `fme.CategoricalFME` | Evaluate the FME protocol for categorical data (Section VI)|
+| **Key–Value**   | `fme.KeyValueFME`    | Evaluate the FME protocol for key–value data (Section VII)|
+
+Each entry point has the following arguments:
+
+| Argument                | Description                                   |
+| ----------------------- | --------------------------------------------- |
+| `DataConfig`            | Dataset name                                  |
+| `epsilon`               | ε in differential privacy                     |
+| `delta`                 | δ in differential privacy                     |
+| `alpha`                 | Significance level                            |
+| `beta`                  | Sampling probability                          |
+| `topK`                  | Evaluate the MSE of the top-K frequent items. |
+| `encryption`            | Encryption mode (`RSA` or `ECIES`)            |
+| `isLargeL`              | Use Proposal (Large ℓ) if `true`. Use Proposal (Small ℓ) if `false` |
+| `seed`                  | Random seed (optional)                        |
+
+Therefore, we can run the FME protocol as follows:
+- FME protocol for categorical data (Section VI)
+   ```bash
+      java -cp "lib/*:bin" fme.CategoricalFME `DataConfig` `epsilon` `delta` `alpha` `beta` `topK` `encryption` `isLargeL` `seed`
+   ```
+
+- FME protocol for key-value data (Section VII)
+   ```bash
+      java -cp "lib/*:bin" fme.KeyValueFME `DataConfig` `epsilon` `delta` `alpha` `beta` `topK` `encryption` `isLargeL` `seed`
+   ```
+
+See ``Usage (2)`` for their examples.
+
+---
+
 ## Usage
+
+Below, we explain how to reproduce Fig. 6 "Proposal (Large ℓ)" and "Proposal (Small ℓ)":
 
 ### (1) Installation and Compilation
 
@@ -58,29 +98,6 @@ README.md   ── This file.
    ```
 
 ### (2) Execution
-
-The following table shows an entry point for each data type: 
-
-| Data Type       | Entry Point          | Description              |
-| --------------- | -------------------- | ------------------------ |
-| **Categorical** | `fme.CategoricalFME` | Evaluate the FME protocol (Algorithm 1) for categorical data |
-| **Key–Value**   | `fme.KeyValueFME`    | Evaluate the FME protocol (Algorithm 1) for key–value data   |
-
-Each entry point has the following arguments:
-
-| Argument                | Description                                   |
-| ----------------------- | --------------------------------------------- |
-| `DataConfig`            | Dataset name                                  |
-| `epsilon`               | ε in differential privacy                     |
-| `delta`                 | δ in differential privacy                     |
-| `alpha`                 | Significance level                            |
-| `beta`                  | Sampling probability                          |
-| `topK`                  | Evaluate the MSE of the top-K frequent items. |
-| `encryption`            | Encryption mode (`RSA` or `ECIES`)            |
-| `isLargeL`              | Use Proposal (Large ℓ) if `true`              |
-| `seed`                  | Random seed (optional)                        |
-
-Based on them, we explain how to reproduce Fig. 6 "Proposal (Large ℓ)" and "Proposal (Small ℓ)":
 
 ### Foursquare Dataset
 

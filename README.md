@@ -63,8 +63,8 @@ The following table shows an entry point for each data type:
 
 | Data Type       | Entry Point          | Description              |
 | --------------- | -------------------- | ------------------------ |
-| **Categorical** | `fme.CategoricalFME` | Evaluate the FME protocol for categorical data |
-| **Key–Value**   | `fme.KeyValueFME`    | Evaluate the FME protocol for key–value data   |
+| **Categorical** | `fme.CategoricalFME` | Evaluate the FME protocol (Algorithm 1) for categorical data |
+| **Key–Value**   | `fme.KeyValueFME`    | Evaluate the FME protocol (Algorithm 1) for key–value data   |
 
 Each entry point has the following arguments:
 

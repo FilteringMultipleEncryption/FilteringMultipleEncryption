@@ -27,10 +27,10 @@ README.md   ── This file.
 
 The following table shows an entry point for each data type: 
 
-| Data Type       | Entry Point          | Description              |
-| --------------- | -------------------- | ------------------------ |
-| **Categorical** | `fme.CategoricalFME` | Evaluate the FME protocol for categorical data (Section VI)|
-| **Key–Value**   | `fme.KeyValueFME`    | Evaluate the FME protocol for key–value data (Section VII)|
+| Data Type       | Entry Point          | Output                   | Description              |
+| --------------- | -------------------- | ------------------------ | ------------------------ |
+| **Categorical** | `fme.CategoricalFME` | Frequency MSE            | Evaluate the FME protocol for categorical data (Section VI)|
+| **Key–Value**   | `fme.KeyValueFME`    | Frequency MSE and Mean MSE | Evaluate the FME protocol for key–value data (Section VII)|
 
 Each entry point has the following arguments:
 

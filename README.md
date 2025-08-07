@@ -36,20 +36,20 @@ README.md   ── This file.
 
 2. Place the following libraries in the `lib/` directory:
 
-   - [Apache Commons Math 3.6.1](https://archive.apache.org/dist/commons/math/binaries/)  
-     Download **`commons-math3-3.6.1-bin.zip`** or **`.tar.gz`** from the Apache archive and decompress it.  
+   - **Apache Commons Math 3.6.1**:
+
+     Download **`commons-math3-3.6.1-bin.zip`** or **`.tar.gz`** from the Apache archive and decompress it:
+     - [commons-math3-3.6.1-bin.zip](https://archive.apache.org/dist/commons/math/binaries/commons-math3-3.6.1-bin.zip) (accessed on August 3, 2025)
+     - [commons-math3-3.6.1-bin.tar.gz](https://archive.apache.org/dist/commons/math/binaries/commons-math3-3.6.1-bin.tar.gz) (accessed on August 3, 2025)
+     
      The archive contains the file `commons-math3-3.6.1.jar`. Place it into the `lib/` directory.  
      (NOTE: Commons Math 4.x uses a different package structure and is incompatible with our code.)
-   - [Bouncy Castle](https://www.bouncycastle.org/)  
-     Our code works with **`bcprov-jdk18on-1.81.jar`**.  
-     Place it into the `lib/` directory.
+   - **Bouncy Castle**:
 
-    As of August 3, 2025, the following direct download links are available:
-     - **Apache Commons Math 3.6.1**:  
-       [commons-math3-3.6.1-bin.zip](https://archive.apache.org/dist/commons/math/binaries/commons-math3-3.6.1-bin.zip)  
-       [commons-math3-3.6.1-bin.tar.gz](https://archive.apache.org/dist/commons/math/binaries/commons-math3-3.6.1-bin.tar.gz)  
-     - **Bouncy Castle**:  
-       [bcprov-jdk18on-1.81.jar](https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk18on/1.81/bcprov-jdk18on-1.81.jar)
+     Our code works with **`bcprov-jdk18on-1.81.jar`**:
+     - [bcprov-jdk18on-1.81.jar](https://repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk18on/1.81/bcprov-jdk18on-1.81.jar) (accessed on August 3, 2025)
+
+     Place it into the `lib/` directory.
      
 3. Compile our code:
 

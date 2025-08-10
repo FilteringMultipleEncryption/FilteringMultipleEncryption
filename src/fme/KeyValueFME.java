@@ -142,7 +142,7 @@ public class KeyValueFME {
 		/* Random shuffling (Algorithm 1, l.23) */
 		shuffler.shuffle2(rand);
 
-		/* Compute an unbiased estimate (Algorithm 1, l.25-29) */ /* Calculate unbiased estimates (Section VII) */
+		/* Calculate unbiased estimates (Section VII) */
 		dataCollector.receives2keyValue(shuffler.getTurn2Values(), kappa);
 
 		float frequency[] = dataCollector.getFrequency();

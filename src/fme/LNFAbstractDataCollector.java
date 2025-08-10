@@ -111,7 +111,7 @@ public abstract class LNFAbstractDataCollector {
 			}
 		}
 
-		/* Dummy input data addition (Algorithm 1, l.19) */
+		/* Replace unselected items with \bot (Algorithm 1, l.13-17) */
 		for (int i = 0; i < hashValues.size(); i++) {
 			if (!filteringInfo4hash.contains(hashValues.get(i))) {
 				turn2OrgValues.set(i, null);

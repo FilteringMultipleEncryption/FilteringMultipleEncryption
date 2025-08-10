@@ -114,6 +114,7 @@ public class CategoricalFME {
 		shuffler.shuffle(rand);
 
 		/* Filtering (Algorithm 1, l.10-12) */
+		/* Replace unselected items with \bot (Algorithm 1, l.13-17) */
 		dataCollector.receives1(shuffler.getSampledHashValues(), shuffler.getSampledOrgValues());
 
 		HashSet<Integer> filteringInfo = dataCollector.getFilteringInfo();

@@ -129,6 +129,7 @@ public class KeyValueFME {
 
 		/* Filtering (Algorithm 1, l.10-12) */
 		/* TKV-FK (Section VII) */
+		/* Replace unselected items with \bot (Algorithm 1, l.13-17) */
 		dataCollector.receives1keyValue(shuffler.getSampledHashValues(), shuffler.getSampledOrgValues(), kappa);
 		HashSet<Integer> filteringInfo = dataCollector.getFilteringInfo();
 

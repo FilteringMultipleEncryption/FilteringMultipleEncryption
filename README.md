@@ -105,8 +105,9 @@ Below, we explain how to reproduce Fig. 6 "Proposal (Large ℓ)" and "Proposal (
    - **[Global-scale Check-in Dataset](https://sites.google.com/site/yangdingqi/home/foursquare-dataset#h.p_ID_56)** — `dataset_TIST2015.zip`
    - **[User Profile Dataset](https://sites.google.com/site/yangdingqi/home/foursquare-dataset#h.p_ID_68)** — `dataset_UbiComp2016.zip`
    
-   You may also place all the extracted `.txt` files from these ZIP archives directly into the `data/` directory instead of using the ZIP files. The program will work the same way in this case.
-2. Run the preprocessing code as follows:
+   You may also place `dataset_TIST2015_Checkins.txt`, `dataset_TIST2015_POIs.txt`, and `dataset_UbiComp2016_UserProfile_NYC.txt` extracted from these ZIP files directly into `data/` instead of the ZIP files. The program will work the same way in this case.
+
+3. Run the preprocessing code as follows:
 
    On **Windows**:
       ```bash
@@ -118,7 +119,7 @@ Below, we explain how to reproduce Fig. 6 "Proposal (Large ℓ)" and "Proposal (
       java -cp "lib/*:bin" util.DataPreprocessing foursquare
       ```
 
-3. Run the evaluation code as follows:
+4. Run the evaluation code as follows:
 
    On **Windows**:
    ```bash
@@ -133,7 +134,7 @@ Below, we explain how to reproduce Fig. 6 "Proposal (Large ℓ)" and "Proposal (
 **Results**: After running the code in step 3, the following results will be output to the console:
 
    ```bash
-   Frequency MSE: 7.89673284955141E-8
+   Frequency MSE: 1.5896099937481953E-7
    ```
    This is the MSE of "Proposal (Large ℓ)" with ε=1.0.
 
@@ -168,8 +169,8 @@ Below, we explain how to reproduce Fig. 6 "Proposal (Large ℓ)" and "Proposal (
 **Results**: After running the code in step 3, the following results will be output to the console:
 
    ```bash
-   Frequency MSE: 3.338134642028916E-7
-   Mean MSE: 0.1642468655220782
+   Frequency MSE: 2.830363096692403E-7
+   Mean MSE: 0.1714257324077271
    ```
    They are the MSE (frequency) and the MSE (mean) of "Proposal (Large ℓ)" with ε=1.0.
 

@@ -2,6 +2,7 @@ package fme;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -59,6 +60,7 @@ public class LNFShuffler {
 	 */
 	public void sampleAndAddFakeValues(Random rand) {
 
+		/* Random sampling (Algorithm 1, l.4) */
 		boolean bs[] = getSampleBools(allHashValues.size(), rand);
 
 		for (int i = 0; i < bs.length; i++) {
@@ -71,6 +73,7 @@ public class LNFShuffler {
 		allHashValues.clear();
 		allOrgValues.clear();
 
+		/* Dummy hash data addition (Algorithm 1, l.5-7) */
 		for (int i = 0; i < b; i++) {
 			int zi = distribution.sample();
 			for (int j = 0; j < zi; j++) {
@@ -78,6 +81,33 @@ public class LNFShuffler {
 				sampledOrgValues.add(null);
 			}
 		}
+	}
+
+	public void shuffle(Random rand) {
+		int size = sampledHashValues.size();
+
+		List<Integer> indices = new ArrayList<>();
+		for (int i = 0; i < size; i++) {
+			indices.add(i);
+		}
+
+		Collections.shuffle(indices, rand);
+
+		ArrayList<Integer> shuffledHash = new ArrayList<>(size);
+		ArrayList<Integer> shuffledOrg = new ArrayList<>(size);
+		for (int idx : indices) {
+			shuffledHash.add(sampledHashValues.get(idx));
+			shuffledOrg.add(sampledOrgValues.get(idx));
+		}
+
+		sampledHashValues.clear();
+		sampledHashValues.addAll(shuffledHash);
+		sampledOrgValues.clear();
+		sampledOrgValues.addAll(shuffledOrg);
+	}
+
+	public void shuffle2(Random rand) {
+		Collections.shuffle(turn2values, rand);
 	}
 
 	public void receiveValues2(List<Integer> vals) {
@@ -94,6 +124,17 @@ public class LNFShuffler {
 
 	public void addFakeValues(HashSet<Integer> filteringInfo) throws NoSuchAlgorithmException {
 		for (int i = 0; i < d; i++) {
+			if (filteringInfo.contains(i)) {
+				int zi = distribution.sample();
+				for (int j = 0; j < zi; j++) {
+					turn2values.add(i);
+				}
+			}
+		}
+	}
+
+	public void addFakeValues2(HashSet<Integer> filteringInfo) throws NoSuchAlgorithmException {
+		for (int i = 0; i < 2 * d; i++) {
 			if (filteringInfo.contains(i)) {
 				int zi = distribution.sample();
 				for (int j = 0; j < zi; j++) {

@@ -4,11 +4,9 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -80,8 +78,11 @@ public abstract class LNFAbstractDataCollector {
 		for (int hashValue : hashValues) {
 			frequency1[hashValue]++;
 		}
+
+		/* Filtering (Algorithm 1, l.10-12) */
 		generateFilteringInfo();
 
+		/* Replace unselected items with \bot (Algorithm 1, l.13-17) */
 		for (int i = 0; i < hashValues.size(); i++) {
 			if (!filteringInfo4hash.contains(hashValues.get(i))) {
 				turn2OrgValues.set(i, null);
@@ -95,98 +96,29 @@ public abstract class LNFAbstractDataCollector {
 
 		turn2OrgValues = vals;
 
-		double counts[] = new double[b];
 		for (int hashValue : hashValues) {
-			counts[hashValue]++;
+			frequency1[hashValue]++;
 		}
 
-		double count[] = new double[d];
-		int dDash = d + kappa;
-
-		HashMap<Integer, Set<Integer>> map = new HashMap<Integer, Set<Integer>>();
+		/* Filtering (Algorithm 1, l.10-12) */ /* TKV-FK (Section VII) */
+		generateFilteringInfo();
+		HashSet<Integer> filteringInfo2 = new HashSet<Integer>();
 		for (int i = 0; i < d; i++) {
-
-			int keyValueId = Util.getKeyValueId(i, -1, dDash);
-			int hashValue = hashFunction.calculateHash(keyValueId);
-			if (map.containsKey(hashValue)) {
-				map.get(hashValue).add(i);
-			} else {
-				Set<Integer> set = new HashSet<Integer>();
-				set.add(i);
-				map.put(hashValue, set);
-			}
-			keyValueId = Util.getKeyValueId(i, 1, dDash);
-			hashValue = hashFunction.calculateHash(keyValueId);
-			if (map.containsKey(hashValue)) {
-				map.get(hashValue).add(i);
-			} else {
-				Set<Integer> set = new HashSet<Integer>();
-				set.add(i);
-				map.put(hashValue, set);
+			if (filteringInfo.contains(i)) {
+				filteringInfoKey.add(i);
+				filteringInfo2.add(Util.getKeyValueId(i, -1, d + kappa));
+				filteringInfo2.add(Util.getKeyValueId(i, 1, d + kappa));
 			}
 		}
 
-		for (int i = 0; i < b; i++) {
-			Set<Integer> keys = map.get(i);
-			if (keys != null) {
-				for (int key : keys) {
-					if (key < d) {
-						count[key] += (double) counts[i];
-					}
-				}
-			}
-		}
-
-		generateFilteringInfoKeyValue(count, kappa);
-
+		/* Dummy input data addition (Algorithm 1, l.19) */
 		for (int i = 0; i < hashValues.size(); i++) {
 			if (!filteringInfo4hash.contains(hashValues.get(i))) {
 				turn2OrgValues.set(i, null);
 			}
 		}
-	}
 
-	public void receives1keyValue(int counts[], int kappa) throws InvalidKeyException, NoSuchAlgorithmException,
-			NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, NoSuchProviderException {
-
-		double count[] = new double[d];
-		int dDash = d + kappa;
-
-		HashMap<Integer, Set<Integer>> map = new HashMap<Integer, Set<Integer>>();
-		for (int i = 0; i < d; i++) {
-
-			int keyValueId = Util.getKeyValueId(i, -1, dDash);
-			int hashValue = hashFunction.calculateHash(keyValueId);
-			if (map.containsKey(hashValue)) {
-				map.get(hashValue).add(i);
-			} else {
-				Set<Integer> set = new HashSet<Integer>();
-				set.add(i);
-				map.put(hashValue, set);
-			}
-			keyValueId = Util.getKeyValueId(i, 1, dDash);
-			hashValue = hashFunction.calculateHash(keyValueId);
-			if (map.containsKey(hashValue)) {
-				map.get(hashValue).add(i);
-			} else {
-				Set<Integer> set = new HashSet<Integer>();
-				set.add(i);
-				map.put(hashValue, set);
-			}
-		}
-
-		for (int i = 0; i < b; i++) {
-			Set<Integer> keys = map.get(i);
-			if (keys != null) {
-				for (int key : keys) {
-					if (key < d) {
-						count[key] += (double) counts[i];
-					}
-				}
-			}
-		}
-
-		generateFilteringInfoKeyValue(count, kappa);
+		filteringInfo = filteringInfo2;
 	}
 
 	public void receives2(int counts[]) {
@@ -208,6 +140,7 @@ public abstract class LNFAbstractDataCollector {
 			}
 		}
 
+		/* Compute an unbiased estimate (Algorithm 1, l.25-29) */
 		for (int i = 0; i < d; i++) {
 			if (filteringInfo.contains(i)) {
 				frequency2[i] = (float) (1.0 / n / beta * (counts[i] - mu));
@@ -244,13 +177,14 @@ public abstract class LNFAbstractDataCollector {
 		}
 
 		for (int k = 0; k < d; k++) {
-			if (filteringInfo.contains(k)) {
+			if (filteringInfoKey.contains(k)) {
 				frequency2[k] = (float) (kappa / beta / n * (shuffledCount1[k] + shuffledCountMinus1[k] - 2 * mu));
 			}
 		}
 
 	}
 
+	/* Calculate unbiased estimates (Section VII) */
 	public void receives2keyValue(List<Integer> vals, int kappa) throws InvalidKeyException, NoSuchAlgorithmException,
 			NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, NoSuchProviderException {
 
@@ -286,7 +220,7 @@ public abstract class LNFAbstractDataCollector {
 		}
 
 		for (int k = 0; k < d; k++) {
-			if (filteringInfo.contains(k)) {
+			if (filteringInfoKey.contains(k)) {
 				frequency2[k] = (float) (kappa / beta / n * (shuffledCount1[k] + shuffledCountMinus1[k] - 2 * mu));
 			}
 		}
@@ -312,28 +246,6 @@ public abstract class LNFAbstractDataCollector {
 			int hashValue = hashFunction.calculateHash(i);
 			if (filteringInfo4hash.contains(hashValue)) {
 				filteringInfo.add(i);
-			}
-		}
-
-	}
-
-	private void generateFilteringInfoKeyValue(double count[], int kappa) throws NoSuchAlgorithmException {
-		filteringInfo4hash = new HashSet<Integer>();
-		filteringInfo = new HashSet<Integer>();
-		int zth = distribution.getZth(alpha);
-		int topIndex[] = Util.getTopIndices(count, l);
-
-		for (int index : topIndex) {
-			if (count[index] >= zth) {
-				filteringInfoKey.add(index);
-				filteringInfo.add(Util.getKeyValueId(index, -1, d + kappa));
-				filteringInfo.add(Util.getKeyValueId(index, 1, d + kappa));
-				int hashValue1 = hashFunction.calculateHash(Util.getKeyValueId(index, -1, d + kappa));
-				int hashValue2 = hashFunction.calculateHash(Util.getKeyValueId(index, 1, d + kappa));
-				filteringInfo4hash.add(hashValue1);
-				filteringInfo4hash.add(hashValue2);
-			} else {
-				break;
 			}
 		}
 

@@ -1,3 +1,5 @@
+/* NOTE: The purpose of this code is to evaluate the MSE of the FME protocol.
+Thus, this code does not implement multiple encryption or the communication between parties.*/
 package fme;
 
 import java.io.IOException;
@@ -80,7 +82,7 @@ public class KeyValueFME {
 		int d = orgD;
 
 		int kappa = (int) Math.ceil(Util.getL(keyVals_temp, 90));
-		int dDash = 2 * (d + kappa);
+		int dDash = d + kappa;
 
 		List<HashMap<Integer, Double>> keyVals = Util.sampling(keyVals_temp, 0.05, rand);
 		int n = keyVals.size();
@@ -97,7 +99,7 @@ public class KeyValueFME {
 			b = Util.getB(false, n, dDash, dataCollector.getDistribution().getMu(), alpha, beta, encryption);
 		}
 
-		HashFunction hashFunction = new HashFunction(d, b, rand);
+		HashFunction hashFunction = new HashFunction(dDash, b, rand);
 
 		LNFUser users[] = new LNFUser[n];
 
@@ -105,6 +107,7 @@ public class KeyValueFME {
 			HashMap<Integer, Double> keyVal = keyVals.get(i);
 			LNFUser user = new LNFUser(keyVal, hashFunction, kappa);
 			users[i] = user;
+			/* Padding-and-Sampling (Section VII) */
 			user.keyValuePerturbation(d, rand);
 		}
 		dataCollector.setParameters(b, l, hashFunction);
@@ -112,16 +115,33 @@ public class KeyValueFME {
 		LNFShuffler shuffler = new LNFShuffler(dDash, dataCollector.getBeta(), dataCollector.getDistribution(), b,
 				hashFunction);
 
+		/* Send hash values and input values (users -> shuffler) (Algorithm 1, l.1-3) */
 		for (int i = 0; i < n; i++) {
 			shuffler.receiveValue(users[i].getHashValue(), users[i].getOriginalValue());
 		}
+
+		/* Random sampling (Algorithm 1, l.4) */
+		/* Dummy hash data addition (Algorithm 1, l.5-7) */
 		shuffler.sampleAndAddFakeValues(rand);
 
+		/* Random shuffling (Algorithm 1, l.8) */
+		shuffler.shuffle(rand);
+
+		/* Filtering (Algorithm 1, l.10-12) */
+		/* TKV-FK (Section VII) */
 		dataCollector.receives1keyValue(shuffler.getSampledHashValues(), shuffler.getSampledOrgValues(), kappa);
 		HashSet<Integer> filteringInfo = dataCollector.getFilteringInfo();
 
+		/* Send selected items and shuffled data (data collector -> shuffler) (Algorithm 1, l.18) */
 		shuffler.receiveValues2(dataCollector.getTurn2OrgValues());
-		shuffler.addFakeValues(filteringInfo);
+
+		/* Dummy input data addition (Algorithm 1, l.19-22) */
+		shuffler.addFakeValues2(filteringInfo);
+
+		/* Random shuffling (Algorithm 1, l.23) */
+		shuffler.shuffle2(rand);
+
+		/* Compute an unbiased estimate (Algorithm 1, l.25-29) */ /* Calculate unbiased estimates (Section VII) */
 		dataCollector.receives2keyValue(shuffler.getTurn2Values(), kappa);
 
 		float frequency[] = dataCollector.getFrequency();

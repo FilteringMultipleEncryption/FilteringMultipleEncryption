@@ -1,3 +1,5 @@
+/* NOTE: The purpose of this code is to evaluate the MSE of the FME protocol.
+Thus, this code does not implement multiple encryption or the communication between parties.*/
 package fme;
 
 import java.io.IOException;
@@ -99,16 +101,35 @@ public class CategoricalFME {
 		LNFShuffler shuffler = new LNFShuffler(d, dataCollector.getBeta(), dataCollector.getDistribution(), b,
 				hashFunction);
 
+		/* Send hash values and input values (users -> shuffler) (Algorithm 1, l.1-3) */
 		for (int i = 0; i < n; i++) {
 			shuffler.receiveValue(users[i].getHashValue(), users[i].getOriginalValue());
 		}
+
+		/* Random sampling (Algorithm 1, l.4) */
+		/* Dummy hash data addition (Algorithm 1, l.5-7) */
 		shuffler.sampleAndAddFakeValues(rand);
 
+		/* Random shuffling (Algorithm 1, l.8) */
+		shuffler.shuffle(rand);
+
+		/* Filtering (Algorithm 1, l.10-12) */
 		dataCollector.receives1(shuffler.getSampledHashValues(), shuffler.getSampledOrgValues());
+
 		HashSet<Integer> filteringInfo = dataCollector.getFilteringInfo();
 
+		/*
+		 * Send selected items and shuffled data (data collector -> shuffler) (Algorithm
+		 * 1, l.18)
+		 */
 		shuffler.receiveValues2(dataCollector.getTurn2OrgValues());
+
+		/* Dummy input data addition (Algorithm 1, l.19-22) */
 		shuffler.addFakeValues(filteringInfo);
+		/* Random shuffling (Algorithm 1, l.23) */
+		shuffler.shuffle2(rand);
+
+		/* Compute an unbiased estimate (Algorithm 1, l.25-29) */
 		dataCollector.receives2(shuffler.getTurn2Values());
 
 		double sigma2 = dataCollector.getDistribution().getSigma2();

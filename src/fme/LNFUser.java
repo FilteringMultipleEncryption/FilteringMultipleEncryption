@@ -64,6 +64,7 @@ public class LNFUser {
 		value = list.get(rand);
 	}
 
+	/* Padding-and-Sampling (Section VII) */
 	public void keyValuePerturbation(int d, Random rand) throws NoSuchAlgorithmException {
 		int keyValSize = keyValue.size();
 		int addNum = Math.max(kappa - keyValSize, 0);
@@ -86,7 +87,7 @@ public class LNFUser {
 		}
 
 		this.value = Util.getKeyValueId(key, vStar, dDash);
-		hashValue = hashFunction.calculateHash(this.value);
+		hashValue = hashFunction.calculateHash(key);
 	}
 
 }
